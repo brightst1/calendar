@@ -29,38 +29,35 @@ function jump() {
     showCalendar(currentMonth, currentYear);
 }
 
-function jumpToSelectMonth(selectMonth,selectYear){
+function jumpToSelectMonth(selectMonth, selectYear) {
     showCalendar(selectMonth, selectYear);
 }
 
-function openModal(date,month,year){
+function openModal(date, month, year) {
     let foundFlag = false
     let text = ''
-    if(month.length < 2){
-        month = "0"+month
+    if (month.length < 2) {
+        month = "0" + month
     }
-    if(date.length < 2){
-        date = "0"+date
+    if (date.length < 2) {
+        date = "0" + date
     }
-    let allDate = year+"-"+month+"-"+date
-    for(let i = 0 ; i < dateSchedule.length ; i++){
-        console.log(dateSchedule[i],allDate)
-        if(dateSchedule[i].date_ == allDate){
-            console.log(foundFlag)
-            if(foundFlag == false){
+    let allDate = year + "-" + month + "-" + date
+    for (let i = 0; i < dateSchedule.length; i++) {
+        if (dateSchedule[i].date_ == allDate) {
+            if (foundFlag == false) {
                 foundFlag = true;
                 text += 'You got appointment on this day Schedule : \n'
-                text += 'date : '+dateSchedule[i].date_+' , time :'+dateSchedule[i].time_+'\n';
-                text += 'note : '+dateSchedule[i].note_+'\n'
-            }else{
-                text += 'date : '+dateSchedule[i].date_+' , time :'+dateSchedule[i].time_+'\n';
-                text += 'note : '+dateSchedule[i].note_+'\n'
+                text += 'date : ' + dateSchedule[i].date_ + ' , time :' + dateSchedule[i].time_ + '\n';
+                text += 'note : ' + dateSchedule[i].note_ + '\n'
+            } else {
+                text += 'date : ' + dateSchedule[i].date_ + ' , time :' + dateSchedule[i].time_ + '\n';
+                text += 'note : ' + dateSchedule[i].note_ + '\n'
             }
-            
+
         }
     }
-    console.log(foundFlag)
-    if(foundFlag){
+    if (foundFlag) {
         alert(text)
     }
 }
@@ -90,8 +87,7 @@ function showCalendar(month, year) {
         for (let j = 0; j < 7; j++) {
             if (i === 0 && j < firstDay) {
                 let cell = document.createElement("td");
-                cell.setAttribute('id',"day"+date+'month'+(month+1)+'year'+year)
-                // cell.setAttribute('onclick','callfunction(`'+date+'`,`'+month+'`,`'+year+'`)')
+                cell.setAttribute('id', "day" + date + 'month' + (month + 1) + 'year' + year)
                 let cellText = document.createTextNode("");
                 cell.appendChild(cellText);
                 row.appendChild(cell);
@@ -102,15 +98,15 @@ function showCalendar(month, year) {
 
             else {
                 let cell = document.createElement("td");
-                cell.setAttribute('id',"day"+date+'month'+(month+1)+'year'+year)
+                cell.setAttribute('id', "day" + date + 'month' + (month + 1) + 'year' + year)
                 let cellText = document.createTextNode(date);
-                
+
                 if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                     cell.classList.add("bg-info");
                 } // color today's date
-                if(checkAppointMent(date,month+1,year) == 'equal'){
+                if (checkAppointMent(date, month + 1, year) == 'equal') {
                     cell.classList.add("bg-danger");
-                    cell.setAttribute('onclick','openModal(`'+date+'`,`'+(month+1)+'`,`'+year+'`)')
+                    cell.setAttribute('onclick', 'openModal(`' + date + '`,`' + (month + 1) + '`,`' + year + '`)')
                 }
                 cell.appendChild(cellText);
                 row.appendChild(cell);
@@ -125,58 +121,64 @@ function showCalendar(month, year) {
 
 }
 
-function checkAppointMent(date,month,year){
-    
-    for(let i = 0 ; i < dateSchedule.length ; i++){
-        
+function checkAppointMent(date, month, year) {
+
+    for (let i = 0; i < dateSchedule.length; i++) {
+
         let yearx = dateSchedule[i].date_.split('-')[0]
         let monthx = dateSchedule[i].date_.split('-')[1]
         let day = dateSchedule[i].date_.split('-')[2]
-        console.log(date,month,year,day,monthx,yearx)
-        if(date == day && month == monthx && year == yearx ){
+        if (date == day && month == monthx && year == yearx) {
             return 'equal'
         }
     }
     return 'not equal'
 }
 
-function addSchedule(date,time,note){
-    if(date.length > 0 && time.length > 0){
+function addSchedule(date, time, note) {
+    if (date.length > 0 && time.length > 0) {
         let temp = {
-            date_ : date,
-            time_ : time,
-            note_ : note
+            date_: date,
+            time_: time,
+            note_: note
         }
         dateSchedule.push(temp)
-        console.log(dateSchedule)
+        alert('added')
     }
-    console.log(dateSchedule)
-    showCalendar(currentMonth,currentYear)
+    showCalendar(currentMonth, currentYear)
 
 }
 
-function removeSearching(){
+function removeSearching() {
     let list = document.getElementById('Schedule')
-    for(let i = 0 ; i < list.childNodes.length ;i++){
+    for (let i = 0; i < list.childNodes.length; i++) {
         list.innerHTML = '';
     }
 }
 
-function searching(text){
+function searching(text) {
     let tableSearch = document.getElementById('Schedule')
     removeSearching()
-    for(let i = 0 ; i < dateSchedule.length ; i++){
-        console.log(dateSchedule[i].note_,text,dateSchedule[i].note_.indexOf('text'))
-        if(dateSchedule[i].note_.indexOf(text) >= 0){
-            console.log(i)
+    let alert = false;
+    for (let i = 0; i < dateSchedule.length; i++) {
+        if (dateSchedule[i].note_.indexOf(text) >= 0) {
+            alert = true;
             let row = document.createElement('tr')
             let cell = document.createElement('td')
-            // cell.setAttribute('onclick','callfunction('+dateSchedule+')')
-            let cellText = document.createTextNode('You have appointment on '+dateSchedule[i].date_ +', '+dateSchedule[i].time_+', note: '+dateSchedule[i].note_)
+            let cellText = document.createTextNode('You have appointment on ' + dateSchedule[i].date_ + ', ' + dateSchedule[i].time_ + ', note: ' + dateSchedule[i].note_)
             cell.appendChild(cellText)
-            row.appendChild(cell)      
-            tableSearch.appendChild(row)     
+            row.appendChild(cell)
+            tableSearch.appendChild(row)
         }
     }
-    
+    if (alert == false) {
+        alert = true;
+        let row = document.createElement('tr')
+        let cell = document.createElement('td')
+        let cellText = document.createTextNode('You have no appointment at all.')
+        cell.appendChild(cellText)
+        row.appendChild(cell)
+        tableSearch.appendChild(row)
+    }
+
 }
