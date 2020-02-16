@@ -144,9 +144,15 @@ function addSchedule(date, time, note) {
         }
         dateSchedule.push(temp)
         alert('added')
+        clearInput()
     }
     showCalendar(currentMonth, currentYear)
+}
 
+function clearInput(){
+    document.getElementById('selectDate').value = ''
+    document.getElementById('selectTime').value = ''
+    document.getElementById('selectText').value = ''
 }
 
 function removeSearching() {
