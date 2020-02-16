@@ -1,4 +1,6 @@
-# calendar
-calendar
+Credit
+- Calendar UI niinpatel
+# calender
 
-- credit carlendar UI from niinpatel
+HOW TO RUN
+- double click at index.html file
